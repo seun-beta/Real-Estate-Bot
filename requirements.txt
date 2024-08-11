@@ -1,4 +1,8 @@
 fastapi
-uvicorn
 pydantic
-vertexai
+mongoengine
+passlib
+jose
+openai
+uvicorn
+pydantic-settings
