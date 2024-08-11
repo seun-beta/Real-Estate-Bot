@@ -1,104 +1,146 @@
-# House Rental Search API
 
-## Table of Contents
+<p align="center">
+  <a href="" rel="noopener">
+ <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
+</p>
+
+
+
+---
+
+<p align="center">This project is an AI-powered real estate property search platform built with FastAPI and MongoDB. It leverages OpenAI's GPT model to provide personalized property recommendations based on natural language descriptions and user preferences.
+    <br> 
+</p>
+
+## 📝 Table of Contents
 
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+- [Built Using](#built_using)
+- [File Structure](#file_structure)
+- [Contributing](#contributing)
+- [Authors](#authors)
+- [Acknowledgments](#acknowledgement)
 
-## About <a name = "about"></a>
+## 🧐 About <a name = "about"></a>
 
-This project is designed to provide an API for a house rental service that enables users to find properties based on descriptions. It utilizes a state-of-the-art language model from Vertex AI to extract key information such as the number of rooms, location, and rent from natural language descriptions. The API then queries a pre-populated SQLite database to find matching properties based on the extracted data.
+The Real Estate Property Search platform allows users to search for properties using natural language descriptions. The platform utilizes OpenAI's GPT model to extract key information such as the number of rooms, location, and rent from user descriptions. These details are then used to query a MongoDB database to find matching properties. The system also incorporates user preferences to enhance search results, providing personalized recommendations tailored to each user's needs.
 
-## Getting Started <a name = "getting_started"></a>
+## 🏁 Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Follow these instructions to set up the project locally for development and testing purposes.
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
-- Python 3.8 or higher
-- FastAPI
-- Uvicorn, an ASGI server for running FastAPI
-- SQLite3 for the database
-- vertexai for integrating with Google Vertex AI
+Ensure you have the following software installed:
 
-You can install the necessary libraries with pip:
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- An OpenAI API Key (Sign up at [OpenAI](https://beta.openai.com/signup/))
 
-```bash
-pip install fastapi uvicorn sqlite3 vertexai
-```
-
-Additionally, you will need to obtain a `credentials.json` file for accessing Google Cloud services:
-- Download the `credentials.json` from your Google Cloud Platform console.
-- Place the `credentials.json` in your project directory, or a secure location of your choice.
-- [Download credentials.json here](https://drive.google.com/file/d/1fFKOEwhG6ockH_aGBatH_zpEFgP38piH/view?usp=sharing)  
 ### Installing
 
-Follow these steps to get your development environment running:
+1. **Clone the repository:**
 
-1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/seun-beta/real-estate-ai.git
+   cd real-estate-ai
+   ```
 
-```bash
-git clone https://yourrepository.com/yourproject.git
-cd yourproject
+2. **Create a `.env` file in the root directory:**
+
+   ```env
+   MONGO_URL=mongodb://localhost:27017
+   MONGO_DB_NAME=real_estate_db
+   OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   JWT_SECRET=supersecretkey
+   JWT_ALGORITHM=HS256
+   JWT_ACCESS_TOKEN_EXP_MINUTES=30
+   ```
+
+3. **Build and start the Docker containers:**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+4. **Access the application:**
+
+   The application will be running at `http://localhost:8000`.
+
+## 🎈 Usage <a name="usage"></a>
+
+Once the application is running, you can:
+
+- **Register/Login**: Use the `/users/register` and `/users/login` endpoints to create an account and authenticate.
+- **Set Preferences**: Set your property search preferences using the `/users/preferences/` endpoint.
+- **Search Properties**: Use the `/properties/search_properties/` endpoints to search for properties based on natural language descriptions. The platform supports zero-shot, single-shot, and few-shot learning techniques for entity extraction.
+
+### API Endpoints
+
+#### **User Endpoints:**
+
+- **POST** `/users/register`: Register a new user.
+- **POST** `/users/login`: Login and receive a JWT token.
+- **POST** `/users/preferences/`: Set user preferences for property search.
+- **GET** `/users/preferences/`: Get the current user’s property search preferences.
+
+#### **Property Search Endpoints:**
+
+- **POST** `/properties/search_properties/zero_shot/`: Search properties using zero-shot learning.
+- **POST** `/properties/search_properties/single_shot/`: Search properties using single-shot learning.
+- **POST** `/properties/search_properties/few_shot/`: Search properties using few-shot learning.
+
+## ⛏️ Built Using <a name = "built_using"></a>
+
+- [Python](https://www.python.org/) - Programming Language
+- [FastAPI](https://fastapi.tiangolo.com/) - Web Framework
+- [MongoDB](https://www.mongodb.com/) - Database
+- [Docker](https://www.docker.com/) - Containerization
+- [OpenAI GPT](https://openai.com/) - AI Model
+
+## 🗂️ File Structure <a name = "file_structure"></a>
+
+```
+.
+├── app
+│   ├── config.py             # Configuration settings
+│   ├── users
+│   │   ├── models.py         # User and UserPreference models
+│   │   ├── schemas.py        # User and UserPreference schemas
+│   │   ├── routers.py        # User routes including registration, login, and preferences
+│   │   ├── auth.py           # User authentication utilities
+│   ├── properties
+│   │   ├── models.py         # Property model
+│   │   ├── schemas.py        # PropertyInquiry and PropertyListResponse schemas
+│   │   ├── routers.py        # Property search routes
+├── main.py                   # FastAPI application initialization
+├── requirements.txt          # Python dependencies
+├── Dockerfile                # Dockerfile for FastAPI app
+├── docker-compose.yml        # Docker Compose file
+├── .env                      # Environment variables
+└── README.md                 # Project documentation
 ```
 
-2. Install the required Python packages:
+## 🤝 Contributing <a name = "contributing"></a>
 
-```bash
-pip install -r requirements.txt
-```
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/seun-beta/real-estate-ai/issues).
 
-3. Set up the environment variable for Google Cloud credentials:
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a pull request
 
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS='path/to/your/credentials.json'
-```
+## ✍️ Authors <a name = "authors"></a>
 
-4. Initialize the database with the seed data:
+- [@seun-beta](https://github.com/seun-beta) - Idea & Initial work
 
-```bash
-python seed.py
-```
+See also the list of [contributors](https://github.com/seun-beta/real-estate-ai/contributors) who participated in this project.
 
-5. Start the FastAPI server:
+## 🎉 Acknowledgments <a name = "acknowledgement"></a>
 
-```bash
-uvicorn main:app --reload
-```
-
-This will start the server on `http://127.0.0.1:8000`. You can interact with the API using this base URL.
-
-## Usage <a name = "usage"></a>
-
-To use the API, send HTTP requests to the appropriate endpoints:
-
-- **Zero-Shot Prompting Endpoint:**
-  - `POST /search_properties/zero_shot/`
-  - Description: Pass a property description and receive property matches without prior examples.
-
-- **Single-Shot Prompting Endpoint:**
-  - `POST /search_properties/single_shot/`
-  - Description: Pass a property description with a single example to guide the model.
-
-- **Few-Shot Prompting Endpoint:**
-  - `POST /search_properties/few_shot/`
-  - Description: Pass a property description along with multiple examples to help the model understand the context better.
-
-For example, to query the few-shot endpoint, you might use a tool like `curl`:
-
-```bash
-curl -X 'POST' \
-  'http://localhost:8000/search_properties/few_shot/' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "description": "Searching for a 3-bedroom house in Lagos with a budget of N3,500,000."
-}'
-```
-
-This sends a description to the API and retrieves matching properties based on the specified criteria.
-
-
+- Thanks to the FastAPI community for their invaluable documentation.
+- Special thanks to OpenAI for providing the GPT model.
+- Inspiration from modern real estate platforms and AI-driven applications.
